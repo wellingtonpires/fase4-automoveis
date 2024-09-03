@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: ./kompose convert
+    kompose.version: 1.32.0 (765fde254)
+  labels:
+    io.kompose.service: fase3automoveis
+  name: fase3automoveis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: fase3automoveis
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: ./kompose convert
+        kompose.version: 1.32.0 (765fde254)
+      labels:
+        io.kompose.network/fase-3-sub-fase3automoveisnetwork: "true"
+        io.kompose.service: fase3automoveis
+    spec:
+      containers:
+        - image: wellingt0npires/fase3automoveis:latest
+          name: fase3automoveis
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              cpu: 100m
+              memory: 500Mi
+      restartPolicy: Always
