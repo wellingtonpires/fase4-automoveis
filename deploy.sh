@@ -5,7 +5,9 @@
 #Remover linha abaixo ao entregar
 docker build -t wellingt0npires/fase3automoveis:latest . && docker push wellingt0npires/fase3automoveis:latest
 
+minikube stop
 minikube delete
+minikube cache delete
 minikube start --ports=8080:8080
 sudo chmod 777 /var/run/docker.sock
 minikube addons enable metrics-server

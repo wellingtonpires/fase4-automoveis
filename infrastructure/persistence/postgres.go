@@ -57,7 +57,8 @@ func ConsultaVendidos() (veiculos []veiculo.Veiculo) {
 		fmt.Println(conexaoAberta)
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM veiculos WHERE flagvendido = "y"`)
+	flag := "y"
+	rows, err := con.Query(`SELECT * FROM veiculos WHERE flagvendido = $1`, flag)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
