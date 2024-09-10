@@ -23,6 +23,7 @@ type Usuario struct {
 	Senha string `json:"senha"`
 	Email string `json:"email"`
 	Cpf   string `json:"cpf"`
+	Admin bool   `json:"admin"`
 }
 
 func CadastraUsuario(c *gin.Context) {

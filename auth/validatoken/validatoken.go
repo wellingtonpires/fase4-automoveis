@@ -33,7 +33,30 @@ func ValidaToken(tokenString string) bool {
 
 	if !token.Valid {
 		return false
+	} else {
+		return true
 	}
 
-	return true
+}
+
+func ValidaTokenAdmin(tokenString string) bool {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return secretKey, nil
+	})
+
+	if err != nil {
+		return false
+	}
+
+	if !token.Valid {
+		return false
+	} else {
+		claims := token.Claims.(jwt.MapClaims)
+		fmt.Print(claims["role"])
+		if claims["role"] == "admin" {
+			return true
+		} else {
+			return false
+		}
+	}
 }
