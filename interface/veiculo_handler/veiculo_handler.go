@@ -18,5 +18,4 @@ func Routes(route *gin.Engine) {
 	u := route.Group("/usuario")
 	u.POST("/cria-token", criatoken.CriaToken)
 	u.POST("/cadastra-usuario", cadastrausuario.CadastraUsuario)
-	u.GET("/valida-token", veiculo.Cadastro)
 }

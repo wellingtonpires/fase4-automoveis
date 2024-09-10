@@ -5,18 +5,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/wellingtonpires/fase3-automoveis/auth/validatoken"
 	"github.com/wellingtonpires/fase3-automoveis/domain/entity/veiculo"
 	"github.com/wellingtonpires/fase3-automoveis/infrastructure/persistence"
 )
 
 func Cadastro(c *gin.Context) {
-
-	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.IndentedJSON(http.StatusUnauthorized, gin.H{"erro": "Token não informado"})
-
-	} else if token == "aloalorapaziada" {
-		c.IndentedJSON(http.StatusUnauthorized, gin.H{"erro": "Token não informado"})
+	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
 	} else {
 		var ve veiculo.Veiculo
 		err := c.ShouldBindJSON(&ve)
@@ -30,33 +26,48 @@ func Cadastro(c *gin.Context) {
 			c.IndentedJSON(http.StatusCreated, gin.H{"resultado": "Veiculo cadastrado na base"})
 		}
 	}
-
 }
 
 func Atualizacao(c *gin.Context) {
-	var ve veiculo.Veiculo
-	err := c.ShouldBindJSON(&ve)
-	if err != nil {
-		fmt.Println(err.Error())
+	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
+	} else {
+		var ve veiculo.Veiculo
+		err := c.ShouldBindJSON(&ve)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		persistence.AtualizaVeiculo(ve)
+		c.IndentedJSON(http.StatusOK, gin.H{"resultado": "Veículo atualizado na base"})
 	}
-	persistence.AtualizaVeiculo(ve)
-	c.IndentedJSON(http.StatusOK, gin.H{"resultado": "Veículo atualizado na base"})
 }
 
 func Exclusao(c *gin.Context) {
-	var ve veiculo.Veiculo
-	err := c.ShouldBindJSON(&ve)
-	if err != nil {
-		fmt.Println(err.Error())
+	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
+	} else {
+		var ve veiculo.Veiculo
+		err := c.ShouldBindJSON(&ve)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		persistence.ExcluiVeiculo(ve)
+		c.IndentedJSON(http.StatusOK, gin.H{"resultado": "Veículo deletado"})
 	}
-	persistence.ExcluiVeiculo(ve)
-	c.IndentedJSON(http.StatusOK, gin.H{"resultado": "Veículo deletado"})
 }
 
 func ConsultaPorPreco(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, persistence.ConsultaPorPreco())
+	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
+	} else {
+		c.IndentedJSON(http.StatusOK, persistence.ConsultaPorPreco())
+	}
 }
 
 func ConsultaVendidos(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, persistence.ConsultaVendidos())
+	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
+	} else {
+		c.IndentedJSON(http.StatusOK, persistence.ConsultaVendidos())
+	}
 }

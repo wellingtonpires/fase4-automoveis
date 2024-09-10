@@ -14,9 +14,7 @@ func OpenConnection() (*sql.DB, error) {
 	} else {
 		fmt.Println("Conectado ao banco!")
 	}
-
 	err = db.Ping()
-
 	return db, err
 }
 
