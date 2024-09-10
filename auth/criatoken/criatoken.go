@@ -1,4 +1,4 @@
-package cria_token
+package criatoken
 
 import (
 	"database/sql"
@@ -17,9 +17,7 @@ func OpenConnection() (*sql.DB, error) {
 	} else {
 		fmt.Println("Conectado ao banco!")
 	}
-
 	err = db.Ping()
-
 	return db, err
 }
 
@@ -31,7 +29,6 @@ func verificaCadastro(usuario string, senha string) (status bool) {
 		fmt.Println("Conectado DB")
 	}
 	defer con.Close()
-
 	rows, err := con.Query(`SELECT * FROM user WHERE user = $1, password = $2`, usuario, senha)
 	if err != nil {
 		fmt.Println(err.Error())
@@ -43,22 +40,21 @@ func verificaCadastro(usuario string, senha string) (status bool) {
 
 var secretKey = []byte("fase3sub")
 
-func criaToken(c *gin.Context) {
-	if verificaCadastro(c.Query("usuario"), c.Query("senha")) == true {
+func CriaToken(c *gin.Context) {
+	if verificaCadastro(c.Query("usuario"), c.Query("senha")) {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 			jwt.MapClaims{
 				"username": c.Query("usuario"),
 				"exp":      time.Now().Add(time.Hour * 24).Unix(),
 			})
-
 		tokenString, err := token.SignedString(secretKey)
 		if err != nil {
-			c.IndentedJSON(http.StatusInternalServerError, gin.H{"resultado": "Erro"})
+			c.IndentedJSON(http.StatusInternalServerError, gin.H{"erro": "Falha ao assinar token"})
+		} else {
+			c.IndentedJSON(http.StatusCreated, gin.H{"token": tokenString})
 		}
-
-		c.IndentedJSON(http.StatusCreated, gin.H{"token": tokenString})
 	} else {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"resultado": "Erro"})
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"erro": "Usuário não existe na base"})
 	}
 
 }
