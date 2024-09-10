@@ -11,7 +11,7 @@ import (
 )
 
 func Cadastro(c *gin.Context) {
-	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+	if !validatoken.ValidaTokenAdmin(c.GetHeader("authorization")) {
 		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
 	} else {
 		var ve veiculo.Veiculo
@@ -29,7 +29,7 @@ func Cadastro(c *gin.Context) {
 }
 
 func Atualizacao(c *gin.Context) {
-	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+	if !validatoken.ValidaTokenAdmin(c.GetHeader("authorization")) {
 		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
 	} else {
 		var ve veiculo.Veiculo
@@ -43,7 +43,7 @@ func Atualizacao(c *gin.Context) {
 }
 
 func Exclusao(c *gin.Context) {
-	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+	if !validatoken.ValidaTokenAdmin(c.GetHeader("authorization")) {
 		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
 	} else {
 		var ve veiculo.Veiculo
@@ -65,7 +65,7 @@ func ConsultaPorPreco(c *gin.Context) {
 }
 
 func ConsultaVendidos(c *gin.Context) {
-	if !validatoken.ValidaToken(c.GetHeader("authorization")) {
+	if !validatoken.ValidaTokenAdmin(c.GetHeader("authorization")) {
 		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
 	} else {
 		c.IndentedJSON(http.StatusOK, persistence.ConsultaVendidos())

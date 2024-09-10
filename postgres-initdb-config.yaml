@@ -6,4 +6,4 @@ data:
   init.sql: |
     ALTER USER postgres PASSWORD '123';
     CREATE TABLE veiculos(marca VARCHAR(50), modelo VARCHAR(50), ano VARCHAR(50), cor VARCHAR(50), preco REAL, flagvendido VARCHAR(1), id SERIAL);
-    CREATE TABLE usuario(login VARCHAR(50), password VARCHAR(50), email VARCHAR(50), cpf VARCHAR(12));
+    CREATE TABLE usuario(login VARCHAR(50), password VARCHAR(50), email VARCHAR(50), cpf VARCHAR(12), admin BOOLEAN);
