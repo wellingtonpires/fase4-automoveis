@@ -21,7 +21,8 @@ func OpenConnection() (*sql.DB, error) {
 	return db, err
 }
 
-func verificaCadastro(usuario string, senha string) (status bool) {
+func verificaCadastro(login string, senha string) (status bool) {
+	fmt.Print(login + senha)
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -29,7 +30,7 @@ func verificaCadastro(usuario string, senha string) (status bool) {
 		fmt.Println("Conectado DB")
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM user WHERE user = $1, password = $2`, usuario, senha)
+	rows, err := con.Query(`SELECT * FROM usuario WHERE login = $1 AND password = $2`, login, senha)
 	if err != nil {
 		fmt.Println(err.Error())
 		return false
@@ -41,10 +42,10 @@ func verificaCadastro(usuario string, senha string) (status bool) {
 var secretKey = []byte("fase3sub")
 
 func CriaToken(c *gin.Context) {
-	if verificaCadastro(c.Query("usuario"), c.Query("senha")) {
+	if verificaCadastro(c.Query("login"), c.Query("senha")) {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 			jwt.MapClaims{
-				"username": c.Query("usuario"),
+				"username": c.Query("login"),
 				"exp":      time.Now().Add(time.Hour * 24).Unix(),
 			})
 		tokenString, err := token.SignedString(secretKey)
