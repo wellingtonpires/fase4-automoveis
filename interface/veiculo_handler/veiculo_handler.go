@@ -12,4 +12,9 @@ func Routes(route *gin.Engine) {
 	v.POST("/cadastra-veiculo", veiculo.Cadastro)
 	v.PATCH("/atualiza-veiculo", veiculo.Atualizacao)
 	v.DELETE("/exclui-veiculo", veiculo.Exclusao)
+
+	u := route.Group("/user")
+	u.POST("/cadastra-cliente", cria_token.criaToken)
+	u.POST("/cria-token", veiculo.Cadastro)
+	u.GET("/valida-token", veiculo.Cadastro)
 }
