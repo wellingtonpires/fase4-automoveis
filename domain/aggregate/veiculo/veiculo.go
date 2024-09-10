@@ -10,17 +10,27 @@ import (
 )
 
 func Cadastro(c *gin.Context) {
-	var ve veiculo.Veiculo
-	err := c.ShouldBindJSON(&ve)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	persistence.CadastraVeiculo(ve)
-	if err != nil {
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"resultado": "Erro: " + err.Error()})
+
+	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"erro": "Token não informado"})
+
+	} else if token == "aloalorapaziada" {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"erro": "Token não informado"})
 	} else {
-		c.IndentedJSON(http.StatusCreated, gin.H{"resultado": "Veiculo cadastrado na base"})
+		var ve veiculo.Veiculo
+		err := c.ShouldBindJSON(&ve)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		persistence.CadastraVeiculo(ve)
+		if err != nil {
+			c.IndentedJSON(http.StatusInternalServerError, gin.H{"resultado": "Erro: " + err.Error()})
+		} else {
+			c.IndentedJSON(http.StatusCreated, gin.H{"resultado": "Veiculo cadastrado na base"})
+		}
 	}
+
 }
 
 func Atualizacao(c *gin.Context) {
