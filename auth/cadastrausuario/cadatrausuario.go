@@ -1,8 +1,10 @@
-package cria_usuario
+package cadastrausuario
 
 import (
 	"database/sql"
 	"fmt"
+
+	"github.com/gin-gonic/gin"
 )
 
 func OpenConnection() (*sql.DB, error) {
@@ -18,7 +20,15 @@ func OpenConnection() (*sql.DB, error) {
 	return db, err
 }
 
-func cadastraCliente(usuario string, senha string, email string, cpf string) {
+type Usuario struct {
+	Usuario string `json:"usuario"`
+	Senha   string `json:"senha"`
+	Email   string `json:"email"`
+	Cpf     string `json:"cpf"`
+}
+
+func CadastraUsuario(c *gin.Context) {
+	var u Usuario
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -27,7 +37,7 @@ func cadastraCliente(usuario string, senha string, email string, cpf string) {
 	}
 	defer con.Close()
 
-	rows, err := con.Query(`INSERT INTO user VALUES ($1, $2, $3, $4)`, usuario, senha, email, cpf)
+	rows, err := con.Query(`INSERT INTO user VALUES ($1, $2, $3, $4)`, u.Usuario, u.Senha, u.Email, u.Cpf)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

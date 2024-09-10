@@ -2,6 +2,8 @@ package veiculo_handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/wellingtonpires/fase3-automoveis/auth/cadastrausuario"
+	"github.com/wellingtonpires/fase3-automoveis/auth/criatoken"
 	"github.com/wellingtonpires/fase3-automoveis/domain/aggregate/veiculo"
 )
 
@@ -13,8 +15,8 @@ func Routes(route *gin.Engine) {
 	v.PATCH("/atualiza-veiculo", veiculo.Atualizacao)
 	v.DELETE("/exclui-veiculo", veiculo.Exclusao)
 
-	u := route.Group("/user")
-	u.POST("/cadastra-cliente", cria_token.criaToken)
-	u.POST("/cria-token", veiculo.Cadastro)
+	u := route.Group("/usuario")
+	u.POST("/cria-token", criatoken.CriaToken)
+	u.POST("/cadastra-usuario", cadastrausuario.CadastraUsuario)
 	u.GET("/valida-token", veiculo.Cadastro)
 }
