@@ -19,10 +19,10 @@ func OpenConnection() (*sql.DB, error) {
 }
 
 type Usuario struct {
-	Usuario string `json:"usuario"`
-	Senha   string `json:"senha"`
-	Email   string `json:"email"`
-	Cpf     string `json:"cpf"`
+	Login string `json:"login"`
+	Senha string `json:"senha"`
+	Email string `json:"email"`
+	Cpf   string `json:"cpf"`
 }
 
 func CadastraUsuario(c *gin.Context) {
@@ -35,7 +35,7 @@ func CadastraUsuario(c *gin.Context) {
 	}
 	defer con.Close()
 
-	rows, err := con.Query(`INSERT INTO user VALUES ($1, $2, $3, $4)`, u.Usuario, u.Senha, u.Email, u.Cpf)
+	rows, err := con.Query(`INSERT INTO usuario VALUES ($1, $2, $3, $4)`, u.Login, u.Senha, u.Email, u.Cpf)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
