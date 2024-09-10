@@ -56,5 +56,4 @@ func CriaToken(c *gin.Context) {
 	} else {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"erro": "Usuário não existe na base"})
 	}
-
 }
