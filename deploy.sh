@@ -16,6 +16,7 @@ sudo chmod 777 /var/run/docker.sock
 minikube addons enable metrics-server
 
 #Implementação das APIs e DB
+
 kubectl apply -f fase3automoveis-deployment.yaml,fase3automoveis-service.yaml,postgres-initdb-config.yaml,postgres-claim0-persistentvolumeclaim.yaml,postgres-deployment.yaml,postgres-service.yaml
 
 #Configura HPA
