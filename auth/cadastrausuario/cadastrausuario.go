@@ -23,11 +23,17 @@ type Usuario struct {
 	Senha string `json:"senha"`
 	Email string `json:"email"`
 	Cpf   string `json:"cpf"`
-	Admin bool   `json:"admin"`
+	Role  string `json:"role"`
 }
 
 func CadastraUsuario(c *gin.Context) {
 	var u Usuario
+
+	err := c.ShouldBindJSON(&u)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -36,7 +42,7 @@ func CadastraUsuario(c *gin.Context) {
 	}
 	defer con.Close()
 
-	rows, err := con.Query(`INSERT INTO usuario VALUES ($1, $2, $3, $4)`, u.Login, u.Senha, u.Email, u.Cpf)
+	rows, err := con.Query(`INSERT INTO usuario VALUES ($1, $2, $3, $4, $5)`, u.Login, u.Senha, u.Email, u.Cpf, u.Role)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
