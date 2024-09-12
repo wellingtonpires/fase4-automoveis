@@ -15,28 +15,34 @@ func OpenConnection() (*sql.DB, error) {
 	if err != nil {
 		panic(err)
 	} else {
-		fmt.Println("Conectado ao banco!")
+		fmt.Println("Conectado ao banco!") //REMOVER
 	}
 	err = db.Ping()
 	return db, err
 }
 
 func verificaCadastro(login string, senha string) (status bool) {
-	fmt.Print(login + senha)
+	existe := false
+	var u Usuario
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		fmt.Println("Conectado DB")
+		fmt.Println("Conectado DB") //REMOVER
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM usuario WHERE login = $1 AND password = $2`, login, senha)
+	rows, err := con.Query(`SELECT * FROM usuario`)
 	if err != nil {
 		fmt.Println(err.Error())
-		return false
+	}
+	for rows.Next() {
+		rows.Scan(&u.Login, &u.Senha, &u.Email, &u.Cpf, &u.Role)
+	}
+	if u.Login == login && u.Senha == senha {
+		existe = true
 	}
 	defer rows.Close()
-	return true
+	return existe
 }
 
 type Usuario struct {
@@ -44,30 +50,34 @@ type Usuario struct {
 	Senha string `json:"senha"`
 	Email string `json:"email"`
 	Cpf   string `json:"cpf"`
-	Admin bool   `json:"admin"`
+	Role  string `json:"role"`
 }
 
 func consultaRole(login string, senha string) (role string) {
-	var admin bool
-	fmt.Print(login + senha)
+	fmt.Print("Login: " + login + "Senha: " + senha + "\n") //REMOVER
+	admin := ""
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		fmt.Println("Conectado DB")
+		fmt.Println("Conectado DB") //REMOVER
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM usuario WHERE login = $1 AND password = $2`, login, senha)
+	rows, err := con.Query(`SELECT * FROM usuario`)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for rows.Next() {
 		var u Usuario
-		rows.Scan(u.Login, u.Senha, u.Email, u.Cpf, u.Admin)
-		admin = u.Admin
+		rows.Scan(u.Login, u.Senha, u.Email, u.Cpf, u.Role)
+		if u.Login == login && u.Senha == senha {
+			admin = u.Role
+		}
+		fmt.Print("Role: " + u.Role) //REMOVER
 	}
 	defer rows.Close()
-	if admin {
+
+	if admin == "admin" {
 		return "admin"
 	} else {
 		return "user"
@@ -77,6 +87,7 @@ func consultaRole(login string, senha string) (role string) {
 var secretKey = []byte("fase3sub")
 
 func CriaToken(c *gin.Context) {
+	fmt.Print(consultaRole(c.Query("login"), c.Query("senha")) + "\n") //REMOVER
 	if verificaCadastro(c.Query("login"), c.Query("senha")) {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 			jwt.MapClaims{
