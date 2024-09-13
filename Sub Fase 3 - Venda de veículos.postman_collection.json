@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "396cbcea-7c06-4bc9-b023-6afea0311a8f",
+		"name": "Sub Fase 3 - Venda de veículos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30665392"
+	},
+	"item": [
+		{
+			"name": "Cadastro Usuário",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"usuarioteste\",\r\n    \"senha\": \"senha123\",\r\n    \"email\": \"teste@teste.com\",\r\n    \"cpf\": \"12345678901\",\r\n    \"admin\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/usuario/cadastra-usuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usuario",
+						"cadastra-usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cria Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/usuario/cria-token?login=usuarioteste&senha=senha123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usuario",
+						"cria-token"
+					],
+					"query": [
+						{
+							"key": "login",
+							"value": "usuarioteste"
+						},
+						{
+							"key": "senha",
+							"value": "senha123"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyOTA3ODcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.7FY9DPKw3c8qeHRQHaa6YGdajhaaamsDCKzo6N9hVas",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 4\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/veiculo/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veiculo",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastro Veículo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODkzMDQsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.LVsdniZAVAZZkfbzuaKmdVA3y7R6YGmMIuzYZWXcw2I",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\": \"Chevrolet\",\r\n    \"modelo\": \"Celta\",\r\n    \"ano\": \"2012\",\r\n    \"cor\": \"Vermelho\",\r\n    \"flagvendido\": false,\r\n    \"preco\": 6000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/veiculo/cadastra-veiculo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veiculo",
+						"cadastra-veiculo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualiza Veículos",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODg3NDcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.GFdE_YkoA8Dr6wH6jC7D7MsqVMvf_3yGEzQ2wy-2eCM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\": \"Chevrolet\",\r\n    \"modelo\": \"Celta\",\r\n    \"ano\": \"2012\",\r\n    \"cor\": \"Verde\",\r\n    \"preco\": 35000,\r\n    \"flagvendido\": false,\r\n    \"id\": 14\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/veiculo/atualiza-veiculo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veiculo",
+						"atualiza-veiculo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deleta Veículos",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyOTA3ODcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.7FY9DPKw3c8qeHRQHaa6YGdajhaaamsDCKzo6N9hVas",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 11\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/veiculo/exclui-veiculo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veiculo",
+						"exclui-veiculo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta Veículos Por Preço",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODI4NzYsInJvbGUiOiJ1c2VyIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.krK7Wl60J31FGcE1nBt8zE4JyfIsZ_E71tNqi6XDxic",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/veiculo/consulta-por-preco",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veiculo",
+						"consulta-por-preco"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta Veículos Vendidos",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODgyNTcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.oii9svolYTIDhCxm_EPQqZKWvSacv8fWfBtxX3EchXI",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/veiculo/vendidos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"veiculo",
+						"vendidos"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
