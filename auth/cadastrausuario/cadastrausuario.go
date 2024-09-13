@@ -23,7 +23,7 @@ type Usuario struct {
 	Senha string `json:"senha"`
 	Email string `json:"email"`
 	Cpf   string `json:"cpf"`
-	Role  string `json:"role"`
+	Admin bool   `json:"admin"`
 }
 
 func CadastraUsuario(c *gin.Context) {
@@ -42,7 +42,7 @@ func CadastraUsuario(c *gin.Context) {
 	}
 	defer con.Close()
 
-	rows, err := con.Query(`INSERT INTO usuario VALUES ($1, $2, $3, $4, $5)`, u.Login, u.Senha, u.Email, u.Cpf, u.Role)
+	rows, err := con.Query(`INSERT INTO usuario VALUES ($1, $2, $3, $4, $5)`, u.Login, u.Senha, u.Email, u.Cpf, u.Admin)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

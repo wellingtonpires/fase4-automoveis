@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,11 +15,17 @@ func OpenConnection() (*sql.DB, error) {
 	db, err := sql.Open("postgres", "postgresql://postgres:123@postgres:5432/postgres?sslmode=disable")
 	if err != nil {
 		panic(err)
-	} else {
-		fmt.Println("Conectado ao banco!") //REMOVER
 	}
 	err = db.Ping()
 	return db, err
+}
+
+type Usuario struct {
+	Login string `json:"login"`
+	Senha string `json:"senha"`
+	Email string `json:"email"`
+	Cpf   string `json:"cpf"`
+	Admin bool   `json:"admin"`
 }
 
 func verificaCadastro(login string, senha string) (status bool) {
@@ -27,8 +34,6 @@ func verificaCadastro(login string, senha string) (status bool) {
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
-	} else {
-		fmt.Println("Conectado DB") //REMOVER
 	}
 	defer con.Close()
 	rows, err := con.Query(`SELECT * FROM usuario`)
@@ -36,7 +41,7 @@ func verificaCadastro(login string, senha string) (status bool) {
 		fmt.Println(err.Error())
 	}
 	for rows.Next() {
-		rows.Scan(&u.Login, &u.Senha, &u.Email, &u.Cpf, &u.Role)
+		rows.Scan(&u.Login, &u.Senha, &u.Email, &u.Cpf, &u.Admin)
 	}
 	if u.Login == login && u.Senha == senha {
 		existe = true
@@ -45,49 +50,32 @@ func verificaCadastro(login string, senha string) (status bool) {
 	return existe
 }
 
-type Usuario struct {
-	Login string `json:"login"`
-	Senha string `json:"senha"`
-	Email string `json:"email"`
-	Cpf   string `json:"cpf"`
-	Role  string `json:"role"`
-}
-
 func consultaRole(login string, senha string) (role string) {
-	fmt.Print("Login: " + login + "Senha: " + senha + "\n") //REMOVER
-	admin := ""
+	role = "default"
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
-	} else {
-		fmt.Println("Conectado DB") //REMOVER
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM usuario`)
+	rows, err := con.Query(`SELECT * FROM usuario WHERE login = $1 AND password = $2`, login, senha)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	for rows.Next() {
 		var u Usuario
-		rows.Scan(u.Login, u.Senha, u.Email, u.Cpf, u.Role)
-		if u.Login == login && u.Senha == senha {
-			admin = u.Role
+		rows.Scan(&u.Login, &u.Senha, &u.Email, &u.Cpf, &u.Admin)
+		fmt.Print("admin " + strconv.FormatBool(u.Admin)) //REMOVER
+		if u.Admin {
+			role = "admin"
 		}
-		fmt.Print("Role: " + u.Role) //REMOVER
 	}
 	defer rows.Close()
-
-	if admin == "admin" {
-		return "admin"
-	} else {
-		return "user"
-	}
+	return role
 }
 
 var secretKey = []byte("fase3sub")
 
 func CriaToken(c *gin.Context) {
-	fmt.Print(consultaRole(c.Query("login"), c.Query("senha")) + "\n") //REMOVER
 	if verificaCadastro(c.Query("login"), c.Query("senha")) {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 			jwt.MapClaims{
