@@ -71,3 +71,17 @@ func ConsultaVendidos(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, persistence.ConsultaVendidos())
 	}
 }
+
+func Checkout(c *gin.Context) {
+	if !validatoken.ValidaTokenAdmin(c.GetHeader("authorization")) {
+		c.IndentedJSON(http.StatusUnauthorized, gin.H{"resultado": "Erro na autenticação"})
+	} else {
+		var ve veiculo.Veiculo
+		err := c.ShouldBindJSON(&ve)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
+		persistence.Checkout(ve)
+		c.IndentedJSON(http.StatusOK, gin.H{"resultado": "Veículo adquirido com sucesso"})
+	}
+}

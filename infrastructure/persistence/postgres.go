@@ -24,6 +24,42 @@ func OpenConnection() (*sql.DB, error) {
 	return db, err
 }
 
+func ConsultaPorId(id int) (veiculos veiculo.Veiculo) {
+	con, err := OpenConnection()
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println(conexaoAberta)
+	}
+	defer con.Close()
+	rows, err := con.Query(`SELECT * FROM veiculos WHERE id = $1`, id)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var v veiculo.Veiculo
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id)
+	}
+
+	return veiculos
+}
+
+func Checkout(v veiculo.Veiculo) {
+	con, err := OpenConnection()
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println(conexaoAberta)
+	}
+	defer con.Close()
+	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1 WHERE id = $2`, true, v.Id)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
 func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 	con, err := OpenConnection()
 	if err != nil {
@@ -32,7 +68,7 @@ func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 		fmt.Println(conexaoAberta)
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM veiculos`)
+	rows, err := con.Query(`SELECT * FROM veiculos WHERE flagvendido = false`)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

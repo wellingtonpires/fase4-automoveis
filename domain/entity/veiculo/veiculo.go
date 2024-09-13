@@ -6,6 +6,6 @@ type Veiculo struct {
 	Ano         string  `json:"ano"`
 	Cor         string  `json:"cor"`
 	Preco       float32 `json:"preco"`
-	Flagvendido string  `json:"flagvendido"`
+	Flagvendido bool    `json:"flagvendido"`
 	Id          int     `json:"id"`
 }
