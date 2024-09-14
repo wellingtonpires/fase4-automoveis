@@ -2,7 +2,7 @@
 
 ### SOBRE:
 
-Backend para uma plataforma para revenda de veículos, implementada utilizando Golang, Postgres e Kubernetes através do Minikube. Toda a parte de autenticação foi desenvolvida de forma customizada e separada das funcionalidades do negócio e implementada utilizando JWT.
+Backend para uma plataforma para revenda de veículos, implementada utilizando Golang, Postgres e Kubernetes através do Minikube. Toda a parte de autenticação foi desenvolvida de forma customizada e separada das funcionalidades do negócio, implementada utilizando JWT.
 
 ### DEPLOY:
 
