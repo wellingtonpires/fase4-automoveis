@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/wellingtonpires/fase3-automoveis/auth/validatoken"
-	"github.com/wellingtonpires/fase3-automoveis/domain/entity/veiculo"
-	"github.com/wellingtonpires/fase3-automoveis/infrastructure/persistence"
+	"github.com/wellingtonpires/fase4-automoveis/auth/validatoken"
+	"github.com/wellingtonpires/fase4-automoveis/domain/entity/veiculo"
+	"github.com/wellingtonpires/fase4-automoveis/infrastructure/persistence"
 )
 
 func Cadastro(c *gin.Context) {
@@ -81,7 +81,7 @@ func Checkout(c *gin.Context) {
 		if err != nil {
 			fmt.Println(err.Error())
 		}
-		persistence.Checkout(ve)
+		persistence.Checkout(ve, c.GetHeader("authorization"))
 		c.IndentedJSON(http.StatusOK, gin.H{"resultado": "Veículo adquirido com sucesso"})
 	}
 }

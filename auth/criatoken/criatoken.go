@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -50,7 +49,7 @@ func verificaCadastro(login string, senha string) (status bool) {
 	return existe
 }
 
-func consultaRole(login string, senha string) (role string) {
+func consultaRole(login string, senha string) (role string, cpf string) {
 	role = "default"
 	con, err := OpenConnection()
 	if err != nil {
@@ -64,24 +63,26 @@ func consultaRole(login string, senha string) (role string) {
 	for rows.Next() {
 		var u Usuario
 		rows.Scan(&u.Login, &u.Senha, &u.Email, &u.Cpf, &u.Admin)
-		fmt.Print("admin " + strconv.FormatBool(u.Admin)) //REMOVER
+		cpf = u.Cpf
 		if u.Admin {
 			role = "admin"
 		}
 	}
 	defer rows.Close()
-	return role
+	return role, cpf
 }
 
-var secretKey = []byte("fase3sub")
+var secretKey = []byte("fase4sub")
 
 func CriaToken(c *gin.Context) {
+	role, cpf := consultaRole(c.Query("login"), c.Query("senha"))
 	if verificaCadastro(c.Query("login"), c.Query("senha")) {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 			jwt.MapClaims{
 				"username": c.Query("login"),
-				"role":     consultaRole(c.Query("login"), c.Query("senha")),
+				"role":     role,
 				"exp":      time.Now().Add(time.Hour * 24).Unix(),
+				"cpf":      cpf,
 			})
 		tokenString, err := token.SignedString(secretKey)
 		if err != nil {

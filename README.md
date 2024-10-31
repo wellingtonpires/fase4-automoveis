@@ -1,4 +1,4 @@
-# FASE 3 - Revenda de veículos
+# FASE 4 - Revenda de veículos - EM DESENVOLVIMENTO
 
 ### SOBRE:
 
@@ -24,7 +24,7 @@ watch minikube kubectl get pods
 
 ### COMO TESTAR:
 
-Importar o arquivo 'Sub Fase 3 - Venda de veículos.postman_collection.json' para o Postman.
+Importar o arquivo 'Sub Fase 4 - Venda de veículos.postman_collection.json' para o Postman.
 
 Para utilizar as APIs, é necessário cadastrar um usuário na API '/usuario/cadastra-usuario' e em seguida gerar um token jwt utilizando a API '/usuario/cria-token?login=LOGINUSUARIO&senha=SENHAUSUARIO', preenchendo o login e senha com os dados do usuário criado anteriormente.
 

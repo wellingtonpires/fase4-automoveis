@@ -4,9 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	"sort"
+	"strings"
 
+	"github.com/golang-jwt/jwt/v5"
 	_ "github.com/lib/pq"
-	"github.com/wellingtonpires/fase3-automoveis/domain/entity/veiculo"
+	"github.com/wellingtonpires/fase4-automoveis/domain/entity/veiculo"
 )
 
 const conexaoAberta = "Conexao aberta com o banco!"
@@ -46,15 +48,30 @@ func ConsultaPorId(id int) (veiculos veiculo.Veiculo) {
 	return veiculos
 }
 
-func Checkout(v veiculo.Veiculo) {
+func extraiCpf(tokenJwt string) string {
+	var cpf string
+	claims := jwt.MapClaims{}
+	_, _, err := jwt.NewParser().ParseUnverified(tokenJwt, claims)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	for key, val := range claims {
+		cpf = fmt.Sprintf("%v,%v", key, val)
+	}
+
+	return strings.Split(cpf, ",")[1]
+}
+
+func Checkout(v veiculo.Veiculo, cpf string) {
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
 		fmt.Println(conexaoAberta)
 	}
+
 	defer con.Close()
-	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1 WHERE id = $2`, true, v.Id)
+	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1, cpf = $2 WHERE id = $3`, true, extraiCpf(cpf), v.Id)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

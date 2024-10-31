@@ -2,9 +2,9 @@ package veiculo_handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/wellingtonpires/fase3-automoveis/auth/cadastrausuario"
-	"github.com/wellingtonpires/fase3-automoveis/auth/criatoken"
-	"github.com/wellingtonpires/fase3-automoveis/domain/aggregate/veiculo"
+	"github.com/wellingtonpires/fase4-automoveis/auth/cadastrausuario"
+	"github.com/wellingtonpires/fase4-automoveis/auth/criatoken"
+	"github.com/wellingtonpires/fase4-automoveis/domain/aggregate/veiculo"
 )
 
 func Routes(route *gin.Engine) {

@@ -5,8 +5,8 @@ metadata:
     kompose.cmd: ./kompose convert
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: fase3automoveis
-  name: fase3automoveis
+    io.kompose.service: fase4automoveis
+  name: fase4automoveis
 spec:
   type: NodePort
   ports:
@@ -14,4 +14,4 @@ spec:
       port: 8080
       targetPort: 8080
   selector:
-    io.kompose.service: fase3automoveis
+    io.kompose.service: fase4automoveis
