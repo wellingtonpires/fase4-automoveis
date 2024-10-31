@@ -62,7 +62,7 @@ func extraiCpf(tokenJwt string) string {
 	return strings.Split(cpf, ",")[1]
 }
 
-func Checkout(v veiculo.Veiculo, cpf string) {
+func Checkout(v veiculo.Veiculo, cpfvenda string) {
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -71,7 +71,7 @@ func Checkout(v veiculo.Veiculo, cpf string) {
 	}
 
 	defer con.Close()
-	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1, cpf = $2 WHERE id = $3`, true, extraiCpf(cpf), v.Id)
+	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1, cpf = $2 WHERE id = $3`, true, extraiCpf(cpfvenda), v.Id)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
