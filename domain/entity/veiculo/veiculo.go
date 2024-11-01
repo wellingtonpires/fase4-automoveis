@@ -8,4 +8,6 @@ type Veiculo struct {
 	Preco       float32 `json:"preco"`
 	Flagvendido bool    `json:"flagvendido"`
 	Id          int     `json:"id"`
+	Cpf         string  `json:"cpf"`
+	Datavenda   string  `json:"datavenda"`
 }
