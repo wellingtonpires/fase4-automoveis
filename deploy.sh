@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Implementação automática da aplicação
+sudo echo ""
 
 #Realiza build e envia para o DockerHub
 docker build -t wellingt0npires/fase4automoveis:latest . && docker push wellingt0npires/fase4automoveis:latest

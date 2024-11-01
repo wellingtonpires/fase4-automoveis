@@ -42,7 +42,7 @@ func ConsultaPorId(id int) (veiculos veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda)
 	}
 
 	return veiculos
@@ -56,13 +56,15 @@ func extraiCpf(tokenJwt string) string {
 		fmt.Println(err.Error())
 	}
 	for key, val := range claims {
-		cpf = fmt.Sprintf("%v,%v", key, val)
+		if key == "cpf" {
+			cpf = fmt.Sprintf("%v,%v", key, val)
+		}
 	}
 
 	return strings.Split(cpf, ",")[1]
 }
 
-func Checkout(v veiculo.Veiculo, cpf string) {
+func Checkout(v veiculo.Veiculo, cpfvenda string) {
 	con, err := OpenConnection()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -71,7 +73,7 @@ func Checkout(v veiculo.Veiculo, cpf string) {
 	}
 
 	defer con.Close()
-	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1, cpf = $2 WHERE id = $3`, true, extraiCpf(cpf), v.Id)
+	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1, cpf = $2, datavenda = current_date WHERE id = $3`, true, extraiCpf(cpfvenda), v.Id)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -93,7 +95,7 @@ func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda)
 		veiculos = append(veiculos, v)
 	}
 	sort.Slice(veiculos, func(i, j int) bool {
@@ -119,7 +121,7 @@ func ConsultaVendidos() (veiculos []veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda)
 		veiculos = append(veiculos, v)
 	}
 	sort.Slice(veiculos, func(i, j int) bool {
