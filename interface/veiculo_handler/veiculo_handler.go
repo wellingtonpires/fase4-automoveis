@@ -5,6 +5,7 @@ import (
 	"github.com/wellingtonpires/fase4-automoveis/auth/cadastrausuario"
 	"github.com/wellingtonpires/fase4-automoveis/auth/criatoken"
 	"github.com/wellingtonpires/fase4-automoveis/domain/aggregate/veiculo"
+	"github.com/wellingtonpires/fase4-automoveis/webhook/pagamento"
 )
 
 func Routes(route *gin.Engine) {
@@ -19,4 +20,7 @@ func Routes(route *gin.Engine) {
 	u := route.Group("/usuario")
 	u.POST("/cria-token", criatoken.CriaToken)
 	u.POST("/cadastra-usuario", cadastrausuario.CadastraUsuario)
+
+	w := route.Group("/webhook")
+	w.POST("/pagamento", pagamento.Pagamento)
 }
