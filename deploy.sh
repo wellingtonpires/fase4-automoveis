@@ -12,23 +12,7 @@ minikube delete
 minikube cache delete
 
 #Inicia uma nova instância do Minikube
-minikube start --ports=8080:8080
-sudo chmod 777 /var/run/docker.sock
-minikube addons enable metrics-server
-
-#Implementação das APIs e DB
-
-kubectl apply -f fase4automoveis-deployment.yaml,fase4automoveis-service.yaml,postgres-initdb-config.yaml,postgres-claim0-persistentvolumeclaim.yaml,postgres-deployment.yaml,postgres-service.yaml
-
-#Segunda execução sem falhas de permissão
-
-#Encerra e limpa o minikube
-minikube stop
-minikube delete
-minikube cache delete
-
-#Inicia uma nova instância do Minikube
-minikube start --ports=8080:8080
+minikube start --ports=8080:8080 --cpus 4 --memory 8192
 sudo chmod 777 /var/run/docker.sock
 minikube addons enable metrics-server
 

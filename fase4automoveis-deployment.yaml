@@ -30,6 +30,6 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: 100m
-              memory: 500Mi
+              cpu: 900m
+              memory: 900Mi
       restartPolicy: Always

@@ -42,7 +42,7 @@ func ConsultaPorId(id int) (veiculos veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda, &v.Pagamento, &v.Pagamentodesc)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Pagamento, &v.Pagamentodesc, &v.Cpf, &v.Datavenda, &v.Id)
 	}
 
 	return veiculos
@@ -102,7 +102,7 @@ func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 		fmt.Println(conexaoAberta)
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM veiculos WHERE flagvendido = false`)
+	rows, err := con.Query(`SELECT * FROM veiculos WHERE (flagvendido is null) OR (flagvendido = false)`)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -110,7 +110,7 @@ func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda, &v.Pagamento, &v.Pagamentodesc)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Pagamento, &v.Pagamentodesc, &v.Cpf, &v.Datavenda, &v.Id)
 		veiculos = append(veiculos, v)
 	}
 	sort.Slice(veiculos, func(i, j int) bool {
@@ -136,7 +136,7 @@ func ConsultaVendidos() (veiculos []veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda, &v.Pagamento, &v.Pagamentodesc)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Pagamento, &v.Pagamentodesc, &v.Cpf, &v.Datavenda, &v.Id)
 		veiculos = append(veiculos, v)
 	}
 	sort.Slice(veiculos, func(i, j int) bool {
@@ -153,7 +153,7 @@ func CadastraVeiculo(v veiculo.Veiculo) {
 		fmt.Println(conexaoAberta)
 	}
 	defer con.Close()
-	_, err = con.Exec(`INSERT INTO veiculos VALUES ($1, $2, $3, $4, $5, $6, )`, v.Marca, v.Modelo, v.Ano, v.Cor, v.Preco, v.Flagvendido)
+	_, err = con.Exec(`INSERT INTO veiculos VALUES ($1, $2, $3, $4, $5)`, v.Marca, v.Modelo, v.Ano, v.Cor, v.Preco)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

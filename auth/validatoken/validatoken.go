@@ -3,8 +3,6 @@ package validatoken
 import (
 	"database/sql"
 	"fmt"
-
-	"github.com/golang-jwt/jwt/v5"
 )
 
 func OpenConnection() (*sql.DB, error) {
@@ -20,43 +18,48 @@ func OpenConnection() (*sql.DB, error) {
 	return db, err
 }
 
-var secretKey = []byte("fase4sub")
+//var secretKey = []byte("fase4sub")
 
 func ValidaToken(tokenString string) bool {
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return secretKey, nil
-	})
+	/*
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return secretKey, nil
+		})
 
-	if err != nil {
-		return false
-	}
+		if err != nil {
+			return false
+		}
 
-	if !token.Valid {
-		return false
-	} else {
-		return true
-	}
-
+		if !token.Valid {
+			return false
+		} else {
+			return true
+		}
+	*/
+	return true
 }
 
 func ValidaTokenAdmin(tokenString string) bool {
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return secretKey, nil
-	})
+	/*
+		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+			return secretKey, nil
+		})
 
-	if err != nil {
-		return false
-	}
-
-	if !token.Valid {
-		return false
-	} else {
-		claims := token.Claims.(jwt.MapClaims)
-		fmt.Print(claims["role"])
-		if claims["role"] == "admin" {
-			return true
-		} else {
+		if err != nil {
 			return false
 		}
-	}
+
+		if !token.Valid {
+			return false
+		} else {
+			claims := token.Claims.(jwt.MapClaims)
+			fmt.Print(claims["role"])
+			if claims["role"] == "admin" {
+				return true
+			} else {
+				return false
+			}
+		}
+	*/
+	return true
 }
