@@ -12,7 +12,7 @@ minikube delete
 minikube cache delete
 
 #Inicia uma nova instância do Minikube
-minikube start --ports=8080:8080
+minikube start --ports=8080:8080 --cpus 4 --memory 8192
 sudo chmod 777 /var/run/docker.sock
 minikube addons enable metrics-server
 

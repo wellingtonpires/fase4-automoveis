@@ -42,7 +42,7 @@ func ConsultaPorId(id int) (veiculos veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Pagamento, &v.Pagamentodesc, &v.Cpf, &v.Datavenda, &v.Id)
 	}
 
 	return veiculos
@@ -73,7 +73,22 @@ func Checkout(v veiculo.Veiculo, cpfvenda string) {
 	}
 
 	defer con.Close()
-	_, err = con.Exec(`UPDATE veiculos SET flagvendido = $1, cpf = $2, datavenda = current_date WHERE id = $3`, true, extraiCpf(cpfvenda), v.Id)
+	_, err = con.Exec(`UPDATE veiculos SET pagamento = $1, pagamentodesc = $2, flagvendido = $3, cpf = $4, datavenda = current_date WHERE id = $5`, false, "Aguardando confirmação", true, extraiCpf(cpfvenda), v.Id)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+
+func Pagamento(v veiculo.Veiculo) {
+	con, err := OpenConnection()
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println(conexaoAberta)
+	}
+
+	defer con.Close()
+	_, err = con.Exec(`UPDATE veiculos SET pagamento = $1, pagamentodesc = $2 WHERE id = $3`, v.Pagamento, v.Pagamentodesc, v.Id)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -87,7 +102,7 @@ func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 		fmt.Println(conexaoAberta)
 	}
 	defer con.Close()
-	rows, err := con.Query(`SELECT * FROM veiculos WHERE flagvendido = false`)
+	rows, err := con.Query(`SELECT * FROM veiculos WHERE (flagvendido is null) OR (flagvendido = false)`)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -95,7 +110,7 @@ func ConsultaPorPreco() (veiculos []veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Pagamento, &v.Pagamentodesc, &v.Cpf, &v.Datavenda, &v.Id)
 		veiculos = append(veiculos, v)
 	}
 	sort.Slice(veiculos, func(i, j int) bool {
@@ -121,7 +136,7 @@ func ConsultaVendidos() (veiculos []veiculo.Veiculo) {
 
 	for rows.Next() {
 		var v veiculo.Veiculo
-		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Id, &v.Cpf, &v.Datavenda)
+		rows.Scan(&v.Marca, &v.Modelo, &v.Ano, &v.Cor, &v.Preco, &v.Flagvendido, &v.Pagamento, &v.Pagamentodesc, &v.Cpf, &v.Datavenda, &v.Id)
 		veiculos = append(veiculos, v)
 	}
 	sort.Slice(veiculos, func(i, j int) bool {
@@ -138,7 +153,7 @@ func CadastraVeiculo(v veiculo.Veiculo) {
 		fmt.Println(conexaoAberta)
 	}
 	defer con.Close()
-	_, err = con.Exec(`INSERT INTO veiculos VALUES ($1, $2, $3, $4, $5, $6)`, v.Marca, v.Modelo, v.Ano, v.Cor, v.Preco, v.Flagvendido)
+	_, err = con.Exec(`INSERT INTO veiculos VALUES ($1, $2, $3, $4, $5)`, v.Marca, v.Modelo, v.Ano, v.Cor, v.Preco)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
