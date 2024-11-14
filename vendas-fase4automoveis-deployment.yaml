@@ -5,13 +5,13 @@ metadata:
     kompose.cmd: ./kompose convert
     kompose.version: 1.32.0 (765fde254)
   labels:
-    io.kompose.service: fase4automoveis
-  name: fase4automoveis
+    io.kompose.service: vendas-fase4automoveis
+  name: vendas-fase4automoveis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: fase4automoveis
+      io.kompose.service: vendas-fase4automoveis
   template:
     metadata:
       annotations:
@@ -19,11 +19,11 @@ spec:
         kompose.version: 1.32.0 (765fde254)
       labels:
         io.kompose.network/fase-3-sub-fase4automoveisnetwork: "true"
-        io.kompose.service: fase4automoveis
+        io.kompose.service: vendas-fase4automoveis
     spec:
       containers:
-        - image: wellingt0npires/fase4automoveis:latest
-          name: fase4automoveis
+        - image: wellingt0npires/vendas-fase4automoveis:latest
+          name: vendas-fase4automoveis
           ports:
             - containerPort: 8080
               hostPort: 8080
