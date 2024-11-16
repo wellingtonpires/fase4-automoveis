@@ -1,4 +1,4 @@
-# FASE 4 - Revenda de veículos - EM DESENVOLVIMENTO
+# FASE 4 - Revenda de veículo
 
 ### SOBRE:
 
