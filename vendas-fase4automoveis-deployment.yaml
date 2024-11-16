@@ -33,4 +33,3 @@ spec:
               cpu: 900m
               memory: 900Mi
       restartPolicy: Always
-      
