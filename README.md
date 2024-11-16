@@ -1,5 +1,8 @@
 # FASE 4 - Revenda de veículo
 
+### Vídeo Demonstrativo:
+https://youtu.be/lI9WL50LSqE
+
 ### SOBRE:
 
 Backend para uma plataforma para revenda de veículos, implementada utilizando Golang, Postgres e Kubernetes através do Minikube. Toda a parte de autenticação foi desenvolvida de forma customizada e separada das funcionalidades do negócio, implementada utilizando JWT.
