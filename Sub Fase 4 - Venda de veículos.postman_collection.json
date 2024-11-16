@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "396cbcea-7c06-4bc9-b023-6afea0311a8f",
+		"_postman_id": "041753c5-350d-41ea-a461-b16a0a87afe2",
 		"name": "Sub Fase 4 - Venda de veículos",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30665392"
@@ -80,14 +80,68 @@
 				"method": "POST",
 				"header": [
 					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"name": "content-type",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyOTA3ODcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.7FY9DPKw3c8qeHRQHaa6YGdajhaaamsDCKzo6N9hVas",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDg1ODM1OSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.QsNe0ww1qhQO7nBzrs9KVl1d-6TxxgfwhoXjFSTEr4M",
 						"type": "text"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": 4\r\n}\r\n\r\n",
+					"raw": "{\r\n    \"id\": 2\r\n}\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -116,13 +170,14 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODkzMDQsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.LVsdniZAVAZZkfbzuaKmdVA3y7R6YGmMIuzYZWXcw2I",
-						"type": "text"
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDk0MDAxMSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.0-77sb6EFRqkS8nSlCRaHGilFvs68vL8r1u9hjouzX4",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"marca\": \"Chevrolet\",\r\n    \"modelo\": \"Celta\",\r\n    \"ano\": \"2012\",\r\n    \"cor\": \"Vermelho\",\r\n    \"flagvendido\": false,\r\n    \"preco\": 6000\r\n}",
+					"raw": "{\r\n    \"marca\": \"Volkswagen\",\r\n    \"modelo\": \"Gol\",\r\n    \"ano\": \"2012\",\r\n    \"cor\": \"Azul\",\r\n    \"flagvendido\": false,\r\n    \"preco\": 12000,\r\n    \"pagamento\": false\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -180,14 +235,50 @@
 			"response": []
 		},
 		{
+			"name": "Webhook Pagamento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODg3NDcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.GFdE_YkoA8Dr6wH6jC7D7MsqVMvf_3yGEzQ2wy-2eCM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"pagamento\": true,\r\n    \"pagamentodesc\": \"Pagamento processado com sucesso\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/webhook/pagamento",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"webhook",
+						"pagamento"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Deleta Veículos",
 			"request": {
 				"method": "DELETE",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyOTA3ODcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.7FY9DPKw3c8qeHRQHaa6YGdajhaaamsDCKzo6N9hVas",
-						"type": "text"
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDUwNjk1Miwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.z-KSnB07i15dC2KEitaY2C2gxG8c4xFdvITYWbgCVk4",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"body": {
@@ -221,8 +312,9 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODI4NzYsInJvbGUiOiJ1c2VyIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.krK7Wl60J31FGcE1nBt8zE4JyfIsZ_E71tNqi6XDxic",
-						"type": "text"
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDk0MDAxMSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.0-77sb6EFRqkS8nSlCRaHGilFvs68vL8r1u9hjouzX4",
+						"type": "text",
+						"disabled": true
 					}
 				],
 				"url": {
@@ -246,8 +338,50 @@
 				"method": "GET",
 				"header": [
 					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
 						"key": "Authorization",
-						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjYyODgyNTcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoidXN1YXJpb3Rlc3RlIn0.oii9svolYTIDhCxm_EPQqZKWvSacv8fWfBtxX3EchXI",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDk0MDAxMSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.0-77sb6EFRqkS8nSlCRaHGilFvs68vL8r1u9hjouzX4",
 						"type": "text"
 					}
 				],
@@ -268,6 +402,113 @@
 							"value": null,
 							"disabled": true
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Consulta Veículos Por Preço - EXTERNAL",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDk0MDAxMSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.0-77sb6EFRqkS8nSlCRaHGilFvs68vL8r1u9hjouzX4",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/external/consulta-por-preco",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"external",
+						"consulta-por-preco"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout - EXTERNAL",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "<calculated when request is sent>",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcGYiOiIxMjM0NTY3ODkwMSIsImV4cCI6MTczMDg1ODM1OSwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJ1c3VhcmlvdGVzdGUifQ.QsNe0ww1qhQO7nBzrs9KVl1d-6TxxgfwhoXjFSTEr4M",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/veiculo/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"veiculo",
+						"checkout"
 					]
 				}
 			},
